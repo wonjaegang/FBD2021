@@ -25,10 +25,10 @@ class Player:
         self.total_wins = 0
 
         player_list.append(self)
-        self.load_oddsdata()
+        self.load_data_sheet()
 
-    def load_oddsdata(self):
-        data_sheet = "%s_oddsdata.txt" % self.name
+    def load_data_sheet(self):
+        data_sheet = "%s_data_sheet.txt" % self.name
         if not os.path.isfile(data_sheet):
             with open(data_sheet, "w+") as f:
                 f.write("total rounds : 0\n")
@@ -43,7 +43,7 @@ class Player:
             for line in f:
                 self.odds_list.append(float(line[len(" odds : ") + 3:]))
 
-    def pick_lastnum(self):
+    def pick_last_num(self):
         index = self.previous_num
         odds_slice = self.odds_list[index: index + max_count]
         max_odds = max(odds_slice)
@@ -57,7 +57,7 @@ class Player:
         print(list(range(self.previous_num + 1, self.last_num + 1)))
 
     def play_turn(self):
-        self.pick_lastnum()
+        self.pick_last_num()
         self.print_nums()
 
     def adjust_statics(self):
@@ -73,7 +73,8 @@ class Player:
 
             self.odds_list[num_index] = adjusted_odds
 
-    def apply_to_datasheet(self):
+    def apply_to_data_sheet(self):
+        # with open() as f:
         pass
 
     def __str__(self):
@@ -103,5 +104,5 @@ if __name__ == "__main__":
 
     for player in player_list:
         player.adjust_statics()
-        player.apply_to_datasheet()
+        player.apply_to_data_sheet()
         print(player.odds_list)
