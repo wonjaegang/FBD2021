@@ -53,7 +53,8 @@ class Player:
         self.last_nums.append(self.last_num)
 
     def print_nums(self):
-        pass
+        print("%s :" % self.name, end='')
+        print(list(range(self.previous_num + 1, self.last_num + 1)))
 
     def play_turn(self):
         self.pick_lastnum()
