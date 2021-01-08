@@ -2,12 +2,6 @@ import random
 import os
 
 
-magic_num = 31
-max_count = 3
-default_odds = 0
-player_list = []
-
-
 def calculate_avg(avg0, n, a_n):
     return avg0*(n-1)/n + a_n/n
 
@@ -52,6 +46,9 @@ class Player:
         self.last_num = self.previous_num + count_up
         self.last_nums.append(self.last_num)
 
+        print("%s :" % self.name, end='')
+        print(odds_slice)
+
     def print_nums(self):
         print("%s :" % self.name, end='')
         print(list(range(self.previous_num + 1, self.last_num + 1)))
@@ -85,27 +82,34 @@ class Player:
 
 
 if __name__ == "__main__":
-    running = True
-    playing = True
-    P1 = Player("Jaewon")
-    P2 = Player("Kyeongmin")
-    P3 = Player("Kyeongho")
 
-    last_num = 0
-    random.shuffle(player_list)
-    while playing:
-        for active_player in player_list:
-            active_player.previous_num = last_num
-            active_player.play_turn()
-            last_num = active_player.last_num
+    magic_num = 31
+    max_count = 3
+    default_odds = 1
 
-            if last_num == magic_num:
-                active_player.victory = False
-                print("%s lose!" % active_player.name)
-                playing = False
-                break
+    for simulation in range(2):
 
-    for player in player_list:
-        player.adjust_statics()
-        player.apply_to_data_sheet()
-        print(player.odds_list)
+        playing = True
+        player_list = []
+        P1 = Player("Jaewon")
+        P2 = Player("Kyeongmin")
+        P3 = Player("Kyeongho")
+
+        last_num = 0
+        random.shuffle(player_list)
+        while playing:
+            for active_player in player_list:
+                active_player.previous_num = last_num
+                active_player.play_turn()
+                last_num = active_player.last_num
+
+                if last_num == magic_num:
+                    active_player.victory = False
+                    print("%s lose!" % active_player.name)
+                    playing = False
+                    break
+
+        for player in player_list:
+            player.adjust_statics()
+            player.apply_to_data_sheet()
+            print(player.odds_list)
