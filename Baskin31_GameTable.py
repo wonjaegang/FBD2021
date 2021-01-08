@@ -78,3 +78,30 @@ class Player:
 
     def __str__(self):
         return "{}".format(self.name)
+
+
+if __name__ == "__main__":
+    running = True
+    playing = True
+    P1 = Player("Jaewon")
+    P2 = Player("Kyeongmin")
+    P3 = Player("Kyeongho")
+
+    last_num = 0
+    random.shuffle(player_list)
+    while playing:
+        for active_player in player_list:
+            active_player.previous_num = last_num
+            active_player.play_turn()
+            last_num = active_player.last_num
+
+            if last_num == magic_num:
+                active_player.victory = False
+                print("%s lose!" % active_player.name)
+                playing = False
+                break
+
+    for player in player_list:
+        player.adjust_statics()
+        player.apply_to_datasheet()
+        print(player.odds_list)
