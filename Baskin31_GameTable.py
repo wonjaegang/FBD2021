@@ -18,6 +18,7 @@ class Player:
         self.previous_num = 0
         self.last_num = 0
         self.last_nums = []
+        self.data_sheet = data_sheet = "%s_data_sheet.txt" % self.name
 
         self.victory = True
         self.odds_list = []
@@ -28,15 +29,14 @@ class Player:
         self.load_data_sheet()
 
     def load_data_sheet(self):
-        data_sheet = "%s_data_sheet.txt" % self.name
-        if not os.path.isfile(data_sheet):
-            with open(data_sheet, "w+") as f:
+        if not os.path.isfile(self.data_sheet):
+            with open(self.data_sheet, "w+") as f:
                 f.write("total rounds : 0\n")
                 f.write("total wins : 0\n")
                 for i in range(magic_num):
                     f.write("%03d odds : %f\n" % (i + 1, default_odds))
 
-        with open(data_sheet, "r") as f:
+        with open(self.data_sheet, "r") as f:
             self.total_rounds = int(f.readline()[len("total rounds : "):])
             self.total_wins = int(f.readline()[len("total wins : "):])
 
@@ -74,8 +74,11 @@ class Player:
             self.odds_list[num_index] = adjusted_odds
 
     def apply_to_data_sheet(self):
-        # with open() as f:
-        pass
+        with open(self.data_sheet, "w") as f:
+            f.write("total rounds : %d\n" % self.total_rounds)
+            f.write("total wins : %d\n" % self.total_wins)
+            for i in range(magic_num):
+                f.write("%03d odds : %f\n" % (i + 1, self.odds_list[i]))
 
     def __str__(self):
         return "{}".format(self.name)
