@@ -61,4 +61,20 @@ class Player:
         self.print_nums()
 
     def adjust_statics(self):
+        self.total_rounds = self.total_rounds + 1
+        self.total_wins = self.total_wins + self.victory
+
+        for num in self.last_nums:
+            num_index = num - 1
+            previous_odds = self.odds_list[num_index]
+            n = self.total_rounds
+            a_n = self.victory
+            adjusted_odds = calculate_avg(previous_odds, n, a_n)
+
+            self.odds_list[num_index] = adjusted_odds
+
+    def apply_to_datasheet(self):
         pass
+
+    def __str__(self):
+        return "{}".format(self.name)
