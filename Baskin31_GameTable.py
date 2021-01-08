@@ -28,7 +28,20 @@ class Player:
         self.load_oddsdata()
 
     def load_oddsdata(self):
-        pass
+        data_sheet = "%s_oddsdata.txt" % self.name
+        if not os.path.isfile(data_sheet):
+            with open(data_sheet, "w+") as f:
+                f.write("total rounds : 0\n")
+                f.write("total wins : 0\n")
+                for i in range(magic_num):
+                    f.write("%03d odds : %f\n" % (i + 1, default_odds))
+
+        with open(data_sheet, "r") as f:
+            self.total_rounds = int(f.readline()[len("total rounds : "):])
+            self.total_wins = int(f.readline()[len("total wins : "):])
+
+            for line in f:
+                self.odds_list.append(float(line[len(" odds : ") + 3:]))
 
     def pick_lastnum(self):
         pass
