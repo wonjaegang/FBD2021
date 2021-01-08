@@ -77,8 +77,8 @@ class Player:
         with open(self.data_sheet, "w") as f:
             f.write("total rounds : %d\n" % self.total_rounds)
             f.write("total wins : %d\n" % self.total_wins)
-            for i in range(magic_num):
-                f.write("%03d odds : %f\n" % (i + 1, self.odds_list[i]))
+            for i, odds in enumerate(self.odds_list):
+                f.write("%03d odds : %f\n" % (i + 1, odds))
 
     def __str__(self):
         return "{}".format(self.name)
