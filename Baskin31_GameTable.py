@@ -44,7 +44,13 @@ class Player:
                 self.odds_list.append(float(line[len(" odds : ") + 3:]))
 
     def pick_lastnum(self):
-        pass
+        index = self.previous_num
+        odds_slice = self.odds_list[index: index + max_count]
+        max_odds = max(odds_slice)
+        finest_count = [i + 1 for i, j in enumerate(odds_slice) if j == max_odds]
+        count_up = random.choice(finest_count)
+        self.last_num = self.previous_num + count_up
+        self.last_nums.append(self.last_num)
 
     def print_nums(self):
         pass
