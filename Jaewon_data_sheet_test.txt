@@ -1,0 +1,13 @@
+Total rounds : 0
+Total victory : 0
+Total odds : None
+1 : [selected : 0, victory : 0, odds : 0.000000]
+2 : [selected : 0, victory : 0, odds : 0.000000]
+3 : [selected : 0, victory : 0, odds : 0.000000]
+4 : [selected : 0, victory : 0, odds : 0.000000]
+5 : [selected : 0, victory : 0, odds : 0.000000]
+6 : [selected : 0, victory : 0, odds : 0.000000]
+7 : [selected : 0, victory : 0, odds : 0.000000]
+8 : [selected : 0, victory : 0, odds : 0.000000]
+9 : [selected : 0, victory : 0, odds : 0.000000]
+10 : [selected : 0, victory : 0, odds : 1.000000]
