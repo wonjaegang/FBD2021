@@ -7,8 +7,9 @@ def calculate_avg(avg0, n, a_n):
 
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, method):
         self.name = name
+        self.method = method
         self.previous_num = 0
         self.last_num = 0
         self.last_nums = []
@@ -37,7 +38,7 @@ class Player:
             for line in f:
                 self.odds_list.append(float(line[len(" odds : ") + 3:]))
 
-    def pick_last_num(self):
+    def select_last_num(self):
         index = self.previous_num
         odds_slice = self.odds_list[index: index + max_count]
         max_odds = max(odds_slice)
@@ -46,15 +47,42 @@ class Player:
         self.last_num = self.previous_num + count_up
         self.last_nums.append(self.last_num)
 
-        print("%s :" % self.name, end='')
-        print(odds_slice)
+        # print("%s :" % self.name, end='')
+        # print(odds_slice)
+
+    def select_last_num_random(self):
+        index = self.previous_num
+        odds_slice = self.odds_list[index: index + max_count]
+        finest_count = [i + 1 for i, j in enumerate(odds_slice)]
+        count_up = random.choice(finest_count)
+        self.last_num = self.previous_num + count_up
+        self.last_nums.append(self.last_num)
+
+    def select_last_num_kkm(self):
+
+        input_num = self.previous_num
+
+
+
+
+
+
+        count_up = 1
+
+        self.last_num = self.previous_num + count_up
+        self.last_nums.append(self.last_num)
 
     def print_nums(self):
         print("%s :" % self.name, end='')
         print(list(range(self.previous_num + 1, self.last_num + 1)))
 
     def play_turn(self):
-        self.pick_last_num()
+        if self.method == "kjw":
+            self.select_last_num()
+        elif self.method == "kkm":
+            self.select_last_num_kkm()
+        elif self.method == "random":
+            self.select_last_num_random()
         self.print_nums()
 
     def adjust_statics(self):
@@ -87,13 +115,13 @@ if __name__ == "__main__":
     max_count = 3
     default_odds = 1
 
-    for simulation in range(2):
+    for simulation in range(1):
 
         playing = True
         player_list = []
-        P1 = Player("Jaewon")
-        P2 = Player("Kyeongmin")
-        P3 = Player("Kyeongho")
+        P1 = Player("Jaewon", "kjw")
+        P2 = Player("Kyeongmin", "kkm")
+        P3 = Player("Kyeongho", "random")
 
         last_num = 0
         random.shuffle(player_list)
@@ -109,7 +137,7 @@ if __name__ == "__main__":
                     playing = False
                     break
 
-        for player in player_list:
-            player.adjust_statics()
-            player.apply_to_data_sheet()
-            print(player.odds_list)
+        # for player in player_list:
+        #     player.adjust_statics()
+        #     player.apply_to_data_sheet()
+        #     print(player.odds_list)
