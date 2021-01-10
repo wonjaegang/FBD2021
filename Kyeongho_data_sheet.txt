@@ -1,0 +1,2 @@
+total rounds : 23
+total wins : 18
