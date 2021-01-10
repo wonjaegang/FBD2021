@@ -1,2 +1,2 @@
-if __name__ == "__main__":
-    pass
+def select_counting(previous_num):
+    return 3
