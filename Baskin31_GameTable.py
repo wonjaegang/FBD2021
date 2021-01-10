@@ -1,5 +1,6 @@
 import random
 import os
+import game_settings
 import Jaewon_algorithm
 import Kyeongmin_algorithm
 import random_algorithm
@@ -57,10 +58,18 @@ class Player:
         return "{}, using {} strategy".format(self.name, self.strategy)
 
 
+def check_game_table():
+    if len(player_list) > number_of_players:
+        print("There are too many players on the game table.")
+    elif len(player_list) < number_of_players:
+        print("We need more players.")
+
+
 if __name__ == "__main__":
 
-    magic_num = 31
-    max_count = 3
+    magic_num = game_settings.magic_num
+    max_count = game_settings.max_count
+    number_of_players = game_settings.number_of_players
 
     for simulation in range(1):
 
@@ -69,6 +78,7 @@ if __name__ == "__main__":
         P1 = Player("Jaewon", Jaewon_algorithm)
         P2 = Player("Kyeongmin", Kyeongmin_algorithm)
         P3 = Player("Kyeongho", random_algorithm)
+        check_game_table()
 
         last_num = 0
         random.shuffle(player_list)
