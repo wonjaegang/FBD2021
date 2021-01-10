@@ -70,8 +70,9 @@ if __name__ == "__main__":
     magic_num = game_settings.magic_num
     max_count = game_settings.max_count
     number_of_players = game_settings.number_of_players
+    repetitions = game_settings.repetitions
 
-    for simulation in range(1):
+    for simulation in range(repetitions):
 
         playing = True
         player_list = []
