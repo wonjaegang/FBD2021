@@ -32,6 +32,8 @@ class Player:
 
     def select_counting(self):
         counting = self.strategy.select_counting(self.previous_num)
+        if counting > max_counting:
+            print("Invalid counting from %s" % self.name)
 
         self.last_num = self.previous_num + counting
         if self.last_num > magic_num:
@@ -68,7 +70,7 @@ def check_game_table():
 if __name__ == "__main__":
 
     magic_num = game_settings.magic_num
-    max_count = game_settings.max_count
+    max_counting = game_settings.max_counting
     number_of_players = game_settings.number_of_players
     repetitions = game_settings.repetitions
 
