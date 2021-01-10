@@ -1,6 +1,7 @@
 import random
 import os
 import Jaewon_algorithm
+import random_algorithm
 
 
 class Player:
@@ -65,8 +66,8 @@ if __name__ == "__main__":
         playing = True
         player_list = []
         P1 = Player("Jaewon", Jaewon_algorithm)
-        P2 = Player("Kyeongmin", Jaewon_algorithm)
-        P3 = Player("Kyeongho", Jaewon_algorithm)
+        P2 = Player("Kyeongmin", random_algorithm)
+        P3 = Player("Kyeongho", random_algorithm)
 
         last_num = 0
         random.shuffle(player_list)
