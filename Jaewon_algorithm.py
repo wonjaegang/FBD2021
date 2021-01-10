@@ -2,25 +2,31 @@ import game_settings as setting
 import os
 
 
+magic_num = setting.magic_num
+max_counting = setting.max_counting
+number_of_players = setting.number_of_players
+opponents_count_min = number_of_players * 1
+opponents_count_max = number_of_players * max_counting
+
+counting_odds = []
+
+
 def load_data_sheet():
-    data_sheet = "%s_data_sheet.txt" % "my_algorithm"
+    data_sheet = "%s_data_sheet.txt" % "Jaewon_algorithm"
     if not os.path.isfile(data_sheet):
         with open(data_sheet, "w+") as f:
-            f.write("total rounds : 0\n")
-            f.write("total wins : 0\n")
+            for _ in range(magic_num):
+                for _ in range(opponents_count_min, opponents_count_max + 1):
+                    f.write("%d " % 0)
+                f.write("\n")
 
     with open(data_sheet, "r") as f:
-        total_rounds = int(f.readline()[len("total rounds : "):])
-        total_wins = int(f.readline()[len("total wins : "):])
+        for _ in range(magic_num):
+            line = f.readline()
+            counting_odds.append(line.split())
 
 
 def calculating_odds(previous_num, counting):
-    magic_num = setting.magic_num
-    max_counting = setting.max_counting
-    number_of_players = 3
-    opponents_count_min = number_of_players * 1
-    opponents_count_max = number_of_players * max_counting
-
     my_last_num = previous_num + counting
     posibilityof2 = 0.5
 
@@ -33,6 +39,8 @@ def calculating_odds(previous_num, counting):
 
 
 def select_counting(previous_num):
+    load_data_sheet()
+    print(counting_odds)
     counting = 3
     return counting
 
