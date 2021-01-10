@@ -14,5 +14,5 @@ def select_counting(previous_num):
             if previous_num == 30:
                 return 1
 
-        return num_count
+        return num_count+1
                 
