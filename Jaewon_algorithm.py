@@ -4,9 +4,9 @@ import os
 
 magic_num = setting.magic_num
 max_counting = setting.max_counting
-number_of_players = setting.number_of_players
-opponents_count_min = number_of_players * 1
-opponents_count_max = number_of_players * max_counting
+number_of_opponents = setting.number_of_players - 1
+opponents_count_min = number_of_opponents * 1
+opponents_count_max = number_of_opponents * max_counting
 
 counting_odds = []
 
@@ -23,7 +23,8 @@ def load_data_sheet():
     with open(data_sheet, "r") as f:
         for _ in range(magic_num):
             line = f.readline()
-            counting_odds.append(line.split())
+            split_int_list = list(map(lambda x: int(x), line.split()))
+            counting_odds.append(split_int_list)
 
 
 def calculating_odds(previous_num, counting):
