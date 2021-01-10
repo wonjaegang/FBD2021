@@ -7,9 +7,8 @@ def calculate_avg(avg0, n, a_n):
 
 
 class Player:
-    def __init__(self, name, method):
+    def __init__(self, name):
         self.name = name
-        self.method = method
         self.previous_num = 0
         self.last_num = 0
         self.last_nums = []
@@ -47,42 +46,15 @@ class Player:
         self.last_num = self.previous_num + count_up
         self.last_nums.append(self.last_num)
 
-        # print("%s :" % self.name, end='')
-        # print(odds_slice)
-
-    def select_last_num_random(self):
-        index = self.previous_num
-        odds_slice = self.odds_list[index: index + max_count]
-        finest_count = [i + 1 for i, j in enumerate(odds_slice)]
-        count_up = random.choice(finest_count)
-        self.last_num = self.previous_num + count_up
-        self.last_nums.append(self.last_num)
-
-    def select_last_num_kkm(self):
-
-        input_num = self.previous_num
-
-
-
-
-
-
-        count_up = 1
-
-        self.last_num = self.previous_num + count_up
-        self.last_nums.append(self.last_num)
+        print("%s :" % self.name, end='')
+        print(odds_slice)
 
     def print_nums(self):
         print("%s :" % self.name, end='')
         print(list(range(self.previous_num + 1, self.last_num + 1)))
 
     def play_turn(self):
-        if self.method == "kjw":
-            self.select_last_num()
-        elif self.method == "kkm":
-            self.select_last_num_kkm()
-        elif self.method == "random":
-            self.select_last_num_random()
+        self.select_last_num()
         self.print_nums()
 
     def adjust_statics(self):
@@ -119,9 +91,9 @@ if __name__ == "__main__":
 
         playing = True
         player_list = []
-        P1 = Player("Jaewon", "kjw")
-        P2 = Player("Kyeongmin", "kkm")
-        P3 = Player("Kyeongho", "random")
+        P1 = Player("Jaewon")
+        P2 = Player("Kyeongmin")
+        P3 = Player("Kyeongho")
 
         last_num = 0
         random.shuffle(player_list)
@@ -137,7 +109,7 @@ if __name__ == "__main__":
                     playing = False
                     break
 
-        # for player in player_list:
-        #     player.adjust_statics()
-        #     player.apply_to_data_sheet()
-        #     print(player.odds_list)
+        for player in player_list:
+            player.adjust_statics()
+            player.apply_to_data_sheet()
+            print(player.odds_list)
