@@ -1,13 +1,16 @@
 import game_settings as setting
 import os
 import random
+import itertools
 
 
 magic_num = setting.magic_num
 max_counting = setting.max_counting
 number_of_opponents = setting.number_of_players - 1
-opponents_count_min = number_of_opponents * 1
-opponents_count_max = number_of_opponents * max_counting
+opponents_counting_min = number_of_opponents * 1
+opponents_counting_max = number_of_opponents * max_counting
+
+opponents_counting_odds = []
 
 
 def load_data_sheet():
@@ -15,7 +18,7 @@ def load_data_sheet():
     if not os.path.isfile(data_sheet):
         with open(data_sheet, "w+") as f:
             for _ in range(magic_num):
-                for _ in range(opponents_count_min, opponents_count_max + 1):
+                for _ in range(opponents_counting_min, opponents_counting_max + 1):
                     f.write("%d " % 0)
                 f.write("\n")
 
@@ -23,18 +26,23 @@ def load_data_sheet():
         for _ in range(magic_num):
             line = f.readline()
             split_int_list = list(map(lambda x: int(x), line.split()))
-            counting_odds = counting_odds.append(split_int_list)
-    return counting_odds
+            opponents_counting_odds.append(split_int_list)
 
 
 def calculating_odds(previous_num, counting):
     my_last_num = previous_num + counting
-    posibilityof2 = 0.5
 
-    winning_odds = (calculating_odds(my_last_num + 2, 1) + calculating_odds(my_last_num + 2, 2) + calculating_odds(my_last_num + 2, 3)) * posibilityof2
+    temp = list(range(opponents_counting_min, opponents_counting_max + 1))
+    opponents_counting_list = itertools.takewhile(lambda x: x + something < magic_num, temp)
+    winning_odds = 0
+    for opponents_counting in opponents_counting_list:
+        next_previous_num = my_last_num + opponents_counting
+        winning_odds = winning_odds + (calculating_odds(next_previous_num, 1) + calculating_odds(next_previous_num, 2) + calculating_odds(next_previous_num, 3)) * opponents_counting_odds[next_previous_num - 1][opponents_counting]
 
-    if previous_num == magic_num - 1:
+    if my_last_num >= magic_num:
         winning_odds = 0
+    if something:
+        winning_odds = 1
 
     return winning_odds
 
@@ -50,13 +58,10 @@ def random_max_index(a):
 
 
 def select_counting(previous_num):
-    counting_odds = load_data_sheet()
-    winning_odds_by_counting = []
+    load_data_sheet()
+    win_rate_by_counting = []
     for counting in range(max_counting):
-        winning_odds_by_counting.append(calculating_odds(previous_num, counting))
-    counting = random_max_index(winning_odds_by_counting) + 1
+        win_rate_by_counting.append(calculating_odds(previous_num, counting))
+    counting = random_max_index(win_rate_by_counting) + 1
     # adjust_data_sheet()
     return counting
-
-
-
