@@ -1,5 +1,6 @@
 import game_settings as setting
 import os
+import random
 
 
 magic_num = setting.magic_num
@@ -7,8 +8,6 @@ max_counting = setting.max_counting
 number_of_opponents = setting.number_of_players - 1
 opponents_count_min = number_of_opponents * 1
 opponents_count_max = number_of_opponents * max_counting
-
-counting_odds = []
 
 
 def load_data_sheet():
@@ -24,7 +23,8 @@ def load_data_sheet():
         for _ in range(magic_num):
             line = f.readline()
             split_int_list = list(map(lambda x: int(x), line.split()))
-            counting_odds.append(split_int_list)
+            counting_odds = counting_odds.append(split_int_list)
+    return counting_odds
 
 
 def calculating_odds(previous_num, counting):
@@ -39,10 +39,23 @@ def calculating_odds(previous_num, counting):
     return winning_odds
 
 
+def adjust_data_sheet():
+    pass
+
+
+def random_max_index(a):
+    max_value = max(a)
+    max_index_list = [i for i, j in enumerate(a) if j == max_value]
+    return random.choice(max_index_list)
+
+
 def select_counting(previous_num):
-    load_data_sheet()
-    print(counting_odds)
-    counting = 3
+    counting_odds = load_data_sheet()
+    winning_odds_by_counting = []
+    for counting in range(max_counting):
+        winning_odds_by_counting.append(calculating_odds(previous_num, counting))
+    counting = random_max_index(winning_odds_by_counting) + 1
+    # adjust_data_sheet()
     return counting
 
 
