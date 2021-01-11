@@ -1,7 +1,6 @@
 import game_settings as setting
 import os
 import random
-import itertools
 
 
 magic_num = setting.magic_num
@@ -29,7 +28,7 @@ def load_data_sheet():
             opponents_counting_odds.append(split_int_list)
 
 
-def calculating_odds(previous_num, my_counting):
+def calculate_win_rate(previous_num, my_counting):
     my_last_num = previous_num + my_counting
     opponents_counting_list = list(range(opponents_counting_min, opponents_counting_max + 1))
 
@@ -39,12 +38,14 @@ def calculating_odds(previous_num, my_counting):
     elif my_last_num >= magic_num:
         return 0
 
-    winning_odds = 0
-    for opponents_counting in opponents_counting_list:
+    win_rate = 0
+    for i, opponents_counting in enumerate(opponents_counting_list):
         next_previous_num = my_last_num + opponents_counting
-        winning_odds = winning_odds + max(calculating_odds(next_previous_num, 1), calculating_odds(next_previous_num, 2), calculating_odds(next_previous_num, 3)) * opponents_counting_odds[next_previous_num - 1][opponents_counting]
+        counting_range = range(max_counting)
+        win_rate_by_counting = list(map(lambda x: calculate_win_rate(next_previous_num, x + 1), counting_range))
+        win_rate = win_rate + max(win_rate_by_counting) * opponents_counting_odds[my_last_num - 1][i]
 
-    return winning_odds
+    return win_rate
 
 
 def adjust_data_sheet():
@@ -59,9 +60,8 @@ def random_max_index(a):
 
 def select_counting(previous_num):
     load_data_sheet()
-    win_rate_by_counting = []
-    for counting in range(max_counting):
-        win_rate_by_counting.append(calculating_odds(previous_num, counting))
+    counting_range = range(max_counting)
+    win_rate_by_counting = list(map(lambda x: calculate_win_rate(previous_num, x + 1), counting_range))
     counting = random_max_index(win_rate_by_counting) + 1
     # adjust_data_sheet()
     return counting
