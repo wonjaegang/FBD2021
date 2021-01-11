@@ -3,6 +3,7 @@ import os
 import game_settings
 import Jaewon_algorithm
 import Kyeongmin_algorithm
+import Kyungho_algorithm
 import random_algorithm
 import User_input
 
@@ -81,7 +82,7 @@ if __name__ == "__main__":
         player_list = []
         P1 = Player("Jaewon", Jaewon_algorithm)
         P2 = Player("Kyeongmin", Kyeongmin_algorithm)
-        P3 = Player("Kyeongho", User_input)
+        P3 = Player("Kyeongho", Kyungho_algorithm)
         check_game_table()
 
         last_num = 0
