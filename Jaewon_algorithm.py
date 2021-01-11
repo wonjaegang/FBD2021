@@ -29,20 +29,20 @@ def load_data_sheet():
             opponents_counting_odds.append(split_int_list)
 
 
-def calculating_odds(previous_num, counting):
-    my_last_num = previous_num + counting
+def calculating_odds(previous_num, my_counting):
+    my_last_num = previous_num + my_counting
+    opponents_counting_list = list(range(opponents_counting_min, opponents_counting_max + 1))
 
-    temp = list(range(opponents_counting_min, opponents_counting_max + 1))
-    opponents_counting_list = itertools.takewhile(lambda x: x + something < magic_num, temp)
+    if previous_num >= magic_num:
+        return 1
+
+    elif my_last_num >= magic_num:
+        return 0
+
     winning_odds = 0
     for opponents_counting in opponents_counting_list:
         next_previous_num = my_last_num + opponents_counting
-        winning_odds = winning_odds + (calculating_odds(next_previous_num, 1) + calculating_odds(next_previous_num, 2) + calculating_odds(next_previous_num, 3)) * opponents_counting_odds[next_previous_num - 1][opponents_counting]
-
-    if my_last_num >= magic_num:
-        winning_odds = 0
-    if something:
-        winning_odds = 1
+        winning_odds = winning_odds + max(calculating_odds(next_previous_num, 1), calculating_odds(next_previous_num, 2), calculating_odds(next_previous_num, 3)) * opponents_counting_odds[next_previous_num - 1][opponents_counting]
 
     return winning_odds
 
