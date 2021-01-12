@@ -14,6 +14,7 @@ class Player:
         self.strategy = strategy
         self.previous_num = 0
         self.last_num = 0
+        self.current_game_data = []
         self.victory = True
 
         self.total_rounds = 0
@@ -47,6 +48,7 @@ class Player:
 
     def play_turn(self):
         self.select_counting()
+        self.current_game_data.append(self.last_num)
         self.print_nums()
 
     def adjust_statics(self):
@@ -62,13 +64,13 @@ class Player:
         return "{}, using {} strategy".format(self.name, self.strategy)
 
 
-def check_game_table(game):
+def check_game_table(i):
     if len(player_list) > number_of_players:
         print("There are too many players on the game table.")
     elif len(player_list) < number_of_players:
         print("We need more players.")
     else:
-        print("< The %dth round >" % (game + 1))
+        print("< The %dth round >" % (i + 1))
 
 
 if __name__ == "__main__":
@@ -88,7 +90,6 @@ if __name__ == "__main__":
         check_game_table(game)
 
         last_num = 0
-        current_game_data = []
         random.shuffle(player_list)
         while playing:
             for active_player in player_list:
@@ -105,6 +106,8 @@ if __name__ == "__main__":
         for player in player_list:
             player.adjust_statics()
             player.apply_to_data_sheet()
+            if 'adjust_data_sheet' in dir(player.strategy):
+                player.strategy.adjust_data_sheet(player.current_game_data)
             print("%10s total records: Win : %d, Lose : %d"
                   % (player.name, player.total_wins, player.total_rounds - player.total_wins))
         print("=" * 100)
