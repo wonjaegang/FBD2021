@@ -14,7 +14,7 @@ class Player:
         self.strategy = strategy
         self.previous_num = 0
         self.last_num = 0
-        self.current_game_data = []
+        self.game_data = []
         self.victory = True
 
         self.total_rounds = 0
@@ -46,9 +46,12 @@ class Player:
         print("%10s :" % self.name, end='')
         print(list(range(self.previous_num + 1, self.last_num + 1)))
 
+    def save_game_data(self):
+        self.game_data.append([self.previous_num, self.last_num])
+
     def play_turn(self):
         self.select_counting()
-        self.current_game_data.append(self.last_num)
+        self.save_game_data()
         self.print_nums()
 
     def adjust_statics(self):
@@ -107,7 +110,7 @@ if __name__ == "__main__":
             player.adjust_statics()
             player.apply_to_data_sheet()
             if 'adjust_data_sheet' in dir(player.strategy):
-                player.strategy.adjust_data_sheet(player.current_game_data)
+                player.strategy.adjust_data_sheet(player.game_data)
             print("%10s total records: Win : %d, Lose : %d"
                   % (player.name, player.total_wins, player.total_rounds - player.total_wins))
         print("=" * 100)
