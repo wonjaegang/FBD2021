@@ -8,8 +8,8 @@ max_counting = setting.max_counting
 number_of_opponents = setting.number_of_players - 1
 opponents_counting_min = number_of_opponents * 1
 opponents_counting_max = number_of_opponents * max_counting
-opponents_counting_list = list(range(opponents_counting_min, opponents_counting_max + 1))
-opponents_counting_odds = []
+opponents_counting_range = range(opponents_counting_min, opponents_counting_max + 1)
+opponents_counting_data = []
 
 
 def load_data_sheet():
@@ -18,14 +18,14 @@ def load_data_sheet():
         with open(data_sheet, "w+") as f:
             for _ in range(magic_num):
                 for _ in range(opponents_counting_min, opponents_counting_max + 1):
-                    f.write("%d " % 0)
+                    f.write("%d " % 1)
                 f.write("\n")
 
     with open(data_sheet, "r") as f:
         for _ in range(magic_num):
             line = f.readline()
             split_int_list = list(map(lambda x: int(x), line.split()))
-            opponents_counting_odds.append(split_int_list)
+            opponents_counting_data.append(split_int_list)
 
 
 memoization = {}
@@ -42,11 +42,12 @@ def calculate_win_rate(previous_num, my_counting):
         return 0
 
     win_rate = 0
-    for i, opponents_counting in enumerate(opponents_counting_list):
+    for i, opponents_counting in enumerate(opponents_counting_range):
         next_previous_num = my_last_num + opponents_counting
-        counting_range = range(max_counting)
-        win_rate_by_counting = list(map(lambda x: calculate_win_rate(next_previous_num, x + 1), counting_range))
-        win_rate = win_rate + max(win_rate_by_counting) * opponents_counting_odds[my_last_num - 1][i]
+        my_counting_range = range(max_counting)
+        win_rate_by_counting = list(map(lambda x: calculate_win_rate(next_previous_num, x + 1), my_counting_range))
+        odds = opponents_counting_data[my_last_num - 1][i] / sum(opponents_counting_data[my_last_num - 1])
+        win_rate = win_rate + max(win_rate_by_counting) * odds
 
     memoization[my_last_num] = win_rate
     return win_rate
