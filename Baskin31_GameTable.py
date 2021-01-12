@@ -42,7 +42,7 @@ class Player:
             self.last_num = magic_num
 
     def print_nums(self):
-        print("%s :" % self.name, end='')
+        print("%10s :" % self.name, end='')
         print(list(range(self.previous_num + 1, self.last_num + 1)))
 
     def play_turn(self):
@@ -62,11 +62,13 @@ class Player:
         return "{}, using {} strategy".format(self.name, self.strategy)
 
 
-def check_game_table():
+def check_game_table(game):
     if len(player_list) > number_of_players:
         print("There are too many players on the game table.")
     elif len(player_list) < number_of_players:
         print("We need more players.")
+    else:
+        print("< The %dth round >" % (game + 1))
 
 
 if __name__ == "__main__":
@@ -76,16 +78,17 @@ if __name__ == "__main__":
     number_of_players = game_settings.number_of_players
     repetitions = game_settings.repetitions
 
-    for simulation in range(repetitions):
+    for game in range(repetitions):
 
         playing = True
         player_list = []
         P1 = Player("Jaewon", Jaewon_algorithm)
         P2 = Player("Kyeongmin", Kyeongmin_algorithm)
         P3 = Player("Kyeongho", Kyungho_algorithm)
-        check_game_table()
+        check_game_table(game)
 
         last_num = 0
+        current_game_data = []
         random.shuffle(player_list)
         while playing:
             for active_player in player_list:
@@ -95,10 +98,13 @@ if __name__ == "__main__":
 
                 if last_num == magic_num:
                     active_player.victory = False
-                    print("%s lose!" % active_player.name)
+                    print("%10s lose!" % active_player.name)
                     playing = False
                     break
 
         for player in player_list:
             player.adjust_statics()
             player.apply_to_data_sheet()
+            print("%10s total records: Win : %d, Lose : %d"
+                  % (player.name, player.total_wins, player.total_rounds - player.total_wins))
+        print("=" * 100)
