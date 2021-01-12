@@ -11,13 +11,14 @@ opponents_counting_max = number_of_opponents * max_counting
 opponents_counting_range = range(opponents_counting_min, opponents_counting_max + 1)
 opponents_counting_data = []
 
+data_sheet = "%s_data_sheet.txt" % "Jaewon_algorithm"
+
 
 def load_data_sheet():
-    data_sheet = "%s_data_sheet.txt" % "Jaewon_algorithm"
     if not os.path.isfile(data_sheet):
         with open(data_sheet, "w+") as f:
             for _ in range(magic_num):
-                for _ in range(opponents_counting_min, opponents_counting_max + 1):
+                for _ in opponents_counting_range:
                     f.write("%d " % 1)
                 f.write("\n")
 
@@ -53,8 +54,18 @@ def calculate_win_rate(previous_num, my_counting):
     return win_rate
 
 
-def adjust_data_sheet():
-    pass
+def adjust_data_sheet(my_numbers):
+    load_data_sheet()
+    for i in range(len(my_numbers) - 1):
+        opponents_counting = my_numbers[i + 1][0] - my_numbers[i][1]
+        temp = opponents_counting_data[my_numbers[i][1] - 1][opponents_counting - opponents_counting_min]
+        opponents_counting_data[my_numbers[i][1] - 1][opponents_counting - opponents_counting_min] = temp + 1
+
+    with open(data_sheet, "w") as f:
+        for i in range(magic_num):
+            for j in opponents_counting_range:
+                f.write("%d " % opponents_counting_data[i][j - opponents_counting_min])
+            f.write("\n")
 
 
 def random_max_index(a):
@@ -67,7 +78,5 @@ def select_counting(previous_num):
     load_data_sheet()
     counting_range = range(max_counting)
     win_rate_by_counting = list(map(lambda x: calculate_win_rate(previous_num, x + 1), counting_range))
-    print(win_rate_by_counting)
     counting = random_max_index(win_rate_by_counting) + 1
-    # adjust_data_sheet()
     return counting
