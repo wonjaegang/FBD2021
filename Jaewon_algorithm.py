@@ -8,7 +8,7 @@ max_counting = setting.max_counting
 number_of_opponents = setting.number_of_players - 1
 opponents_counting_min = number_of_opponents * 1
 opponents_counting_max = number_of_opponents * max_counting
-
+opponents_counting_list = list(range(opponents_counting_min, opponents_counting_max + 1))
 opponents_counting_odds = []
 
 
@@ -28,13 +28,16 @@ def load_data_sheet():
             opponents_counting_odds.append(split_int_list)
 
 
+memoization = {}
+
+
 def calculate_win_rate(previous_num, my_counting):
     my_last_num = previous_num + my_counting
-    opponents_counting_list = list(range(opponents_counting_min, opponents_counting_max + 1))
 
-    if previous_num >= magic_num:
+    if my_last_num in memoization:
+        return memoization[my_last_num]
+    elif previous_num >= magic_num:
         return 1
-
     elif my_last_num >= magic_num:
         return 0
 
@@ -45,6 +48,7 @@ def calculate_win_rate(previous_num, my_counting):
         win_rate_by_counting = list(map(lambda x: calculate_win_rate(next_previous_num, x + 1), counting_range))
         win_rate = win_rate + max(win_rate_by_counting) * opponents_counting_odds[my_last_num - 1][i]
 
+    memoization[my_last_num] = win_rate
     return win_rate
 
 
@@ -62,6 +66,7 @@ def select_counting(previous_num):
     load_data_sheet()
     counting_range = range(max_counting)
     win_rate_by_counting = list(map(lambda x: calculate_win_rate(previous_num, x + 1), counting_range))
+    print(win_rate_by_counting)
     counting = random_max_index(win_rate_by_counting) + 1
     # adjust_data_sheet()
     return counting
