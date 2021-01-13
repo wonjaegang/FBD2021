@@ -11,9 +11,7 @@ def select_counting(previous_num):
             mynum=mynum+1
             if mynum in good:
                 if count!=3 and num_count!=3: 
-                    return num_count+1
-                elif count!=3:
-                    return num_count        
+                    return num_count+1     
             if mynum in bad:
                 if count==1:
                         return 1
