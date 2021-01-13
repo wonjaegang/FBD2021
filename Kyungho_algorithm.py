@@ -1,17 +1,17 @@
 import random
 
 def select_counting(previous_num):
-        previous_num += 1
         count=0
         num_count=random.randrange(0,3)
         for i in range(1, num_count):
             count+=1
-            if previous_num == 28 or previous_num == 29 or previous_num == 22 or previous_num == 15 or previous_num == 8:
+            mynum=previous_num+1
+            if mynum == 28 or mynum == 29 or mynum == 22 or mynum == 15 or mynum == 8:
                 if count!=3:
                     return num_count+1
-            if previous_num == 10 or previous_num == 18 or previous_num == 25 or previous_num == 30:
+            if mynum == 10 or mynum == 18 or mynum == 25 or mynum == 30:
                 return 1
-            if previous_num == 30:
+            if mynum == 30:
                 return 1
 
         return num_count+1
