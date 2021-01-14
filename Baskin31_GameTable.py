@@ -18,7 +18,7 @@ class Player:
 
         self.total_rounds = 0
         self.total_wins = 0
-        self.data_sheet = "%s_data_sheet.txt" % self.name
+        self.data_sheet = "%s_total_record.txt" % self.name
         self.load_data_sheet()
         player_list.append(self)
 
@@ -80,7 +80,7 @@ def check_player_number():
 
 def initialize_game_data():
     with open("current_game_data.txt", "w+") as f:
-        f.writelines(map(lambda x: "%d:%s " % (x[0] + 1, x[1].name), enumerate(player_list)))
+        f.writelines(map(lambda x: "%s " % x.name, player_list))
         f.write("\n")
 
 
