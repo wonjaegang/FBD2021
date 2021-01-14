@@ -54,11 +54,10 @@ def calculate_win_rate(previous_num, my_counting):
     return win_rate
 
 
-def adjust_data_sheet(my_numbers):
+def adjust_data_sheet():
     for i in range(len(my_numbers) - 1):
         opponents_counting = my_numbers[i + 1][0] - my_numbers[i][1]
-        temp = opponents_counting_data[my_numbers[i][1] - 1][opponents_counting - opponents_counting_min]
-        opponents_counting_data[my_numbers[i][1] - 1][opponents_counting - opponents_counting_min] = temp + 1
+        opponents_counting_data[my_numbers[i][1] - 1][opponents_counting - opponents_counting_min] += 1
 
     with open(data_sheet, "w") as f:
         for i in range(magic_num):
@@ -83,7 +82,5 @@ def select_counting(previous_num):
     flush_previous_data()
     load_data_sheet()
     win_rate_by_counting = list(map(lambda x: calculate_win_rate(previous_num, x + 1), my_counting_range))
-    print(win_rate_by_counting)
-    print(memoization)
     counting = random_max_index(win_rate_by_counting) + 1
     return counting
