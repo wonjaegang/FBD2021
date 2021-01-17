@@ -106,12 +106,14 @@ def flush_last_game_data():
 
 
 def select_counting(previous_num):
-#    if previous_num == 29:
-#        return 1
-#    elif previous_num == 28:
-#        return 2
-#    elif previous_num == 27:
-#        return 3
+    if previous_num == 29:
+        return 1
+    elif previous_num == 28:
+        return 2
+    elif previous_num == 27:
+        return 3
+    elif previous_num == 23:
+        return 2
     if new_game:
         load_data_sheet()
     win_rate_by_counting = list(map(lambda x: calculate_win_rate(previous_num, x + 1), counting_range))
