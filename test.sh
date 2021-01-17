@@ -1,6 +1,6 @@
 #!/bin/sh
 
-rm Jaewon_data_sheet.txt Kyeongmin_data_sheet.txt Kyeongho_data_sheet.txt
+rm Jaewon_total_record.txt Kyeongmin_total_record.txt Kyungho_total_record.txt
 
 if [ $# -ne 1 ]; then
 	echo "Usage: ./test.sh TheNumberOfSimulation"

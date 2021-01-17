@@ -1,15 +1,15 @@
-1:Kyeongho 2:Jaewon 3:Kyeongmin 
-Kyeongho: 1 2 
-Jaewon: 3 4 
-Kyeongmin: 5 6 7 
-Kyeongho: 8 9 
-Jaewon: 10 11 
-Kyeongmin: 12 13 14 
-Kyeongho: 15 16 
-Jaewon: 17 18 
-Kyeongmin: 19 20 21 
-Kyeongho: 22 23 
+Kyungho Jaewon Kyeongmin 
+Kyungho: 1 
+Jaewon: 2 3 
+Kyeongmin: 4 5 6 
+Kyungho: 7 8 9 
+Jaewon: 10 
+Kyeongmin: 11 12 13 
+Kyungho: 14 15 16 
+Jaewon: 17 
+Kyeongmin: 18 19 20 
+Kyungho: 21 22 23 
 Jaewon: 24 
 Kyeongmin: 25 26 27 
-Kyeongho: 28 29 30 
+Kyungho: 28 29 30 
 Jaewon: 31 

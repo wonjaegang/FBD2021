@@ -1,2 +1,2 @@
-total rounds : 2100
-total wins : 1015
+total rounds : 1024
+total wins : 878
