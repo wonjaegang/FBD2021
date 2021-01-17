@@ -103,7 +103,7 @@ if __name__ == "__main__":
         player_list = []
         P1 = Player("Jaewon", Jaewon_algorithm)
         P2 = Player("Kyeongmin", Kyeongmin_algorithm)
-        P3 = Player("Kyeongho", Kyungho_algorithm)
+        P3 = Player("Kyungho", Kyungho_algorithm)
         prepare_for_this_round()
 
         last_num = 0
@@ -123,8 +123,7 @@ if __name__ == "__main__":
             player.adjust_statics()
             player.apply_to_data_sheet()
             if 'adjust_data_sheet' in dir(player.strategy):
-                # player.strategy.adjust_data_sheet()
-                pass
+                player.strategy.adjust_data_sheet()
             print("%10s total records: Win : %d, Lose : %d"
                   % (player.name, player.total_wins, player.total_rounds - player.total_wins))
         print("=" * 100)

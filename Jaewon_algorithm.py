@@ -7,7 +7,7 @@ player_name = "Jaewon"
 
 magic_num = setting.magic_num
 max_counting = setting.max_counting
-counting_range = range(max_counting) #  OR, range(1, max_counting + 1)
+counting_range = range(1, max_counting + 1)
 
 new_game = True
 
@@ -70,18 +70,23 @@ def calculate_win_rate(previous_num, my_counting):
         return 0
 
     win_rate = 0
-    for opponent in opponents_in_order:
-        for counting in counting_range:
 
+    # Should be simplified -> "generalize"
+    for count1 in counting_range:
+        for count2 in counting_range:
+            next_previous_num = my_last_num + count1 + count2
+            if next_previous_num >= magic_num:
+                next_previous_num = magic_num
+            win_rate_by_counting = list(map(lambda x: calculate_win_rate(next_previous_num, x), counting_range))
 
+            oppo1_counting_data = opponents_counting_data[opponents_in_order[0]][my_last_num]
+            odds = oppo1_counting_data[count1 - 1] / sum(oppo1_counting_data)
+            if my_last_num + count1 < magic_num:
+                oppo2_counting_data = opponents_counting_data[opponents_in_order[1]][my_last_num + count1]
+                odds *= oppo2_counting_data[count2 - 1] / sum(oppo2_counting_data)
 
-
-
-    for i, opponents_counting in enumerate(opponents_counting_range):
-        next_previous_num = my_last_num + opponents_counting
-        win_rate_by_counting = list(map(lambda x: calculate_win_rate(next_previous_num, x + 1), counting_range))
-        odds = opponents_counting_data[my_last_num - 1][i] / sum(opponents_counting_data[my_last_num - 1])
-        win_rate = win_rate + max(win_rate_by_counting) * odds
+            final_odds = odds
+            win_rate += max(win_rate_by_counting) * final_odds
 
     memoization[my_last_num] = win_rate
     return win_rate
@@ -105,20 +110,32 @@ def select_counting(previous_num):
         load_data_sheet()
     win_rate_by_counting = list(map(lambda x: calculate_win_rate(previous_num, x + 1), counting_range))
     counting = random_max_index(win_rate_by_counting) + 1
-    print(game_data)
+    print(win_rate_by_counting)
     return counting
 
 
-def adjust_data_sheet():
-    for i in range(len(my_numbers) - 1):
-        opponents_counting = my_numbers[i + 1][0] - my_numbers[i][1]
-        opponents_counting_data[my_numbers[i][1] - 1][opponents_counting - opponents_counting_min] += 1
+def load_current_game_result():
+    with open("current_game_data.txt", "r") as f:
+        f.readline()
+        lines = f.readlines()
+        for line in lines:
+            split_line = line.split(': ')
+            name = split_line[0]
+            if not name == player_name:
+                opponent_nums = split_line[1].split()
+                opponent_previous_num = int(opponent_nums[0]) - 1
+                opponent_counting = int(opponent_nums.pop()) - opponent_previous_num
+                opponents_counting_data[name][opponent_previous_num][opponent_counting - 1] += 1
 
-    with open(data_sheet, "w") as f:
-        for i in range(magic_num):
-            for j in opponents_counting_range:
-                f.write("%d " % opponents_counting_data[i][j - opponents_counting_min])
-            f.write("\n")
+
+def adjust_data_sheet():
+    load_current_game_result()
+    for opponent in opponents_in_order:
+        with open("DataSheet - %s.txt" % opponent, "w") as f:
+            for i in range(magic_num):
+                for j in counting_range:
+                    f.write("%d " % opponents_counting_data[opponent][i][j - 1])
+                f.write("\n")
     flush_last_game_data()
     global new_game
     new_game = True
